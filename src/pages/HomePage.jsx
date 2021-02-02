@@ -7,8 +7,8 @@ import Loader from '../components/Loader.jsx';
 
 import { StateContext } from '../App';
 
-function FullPostPage() {
-  const [users, dispatch] = React.useContext(StateContext);
+function HomePage() {
+  const [state, dispatch] = React.useContext(StateContext);
 
   React.useEffect(() => {
     try {
@@ -17,21 +17,11 @@ function FullPostPage() {
         isLoading: true,
       });
       const apiUrl = `https://5c3755177820ff0014d92711.mockapi.io/articles`;
-      axios.get(apiUrl).then((resp) => {
-        const data = resp.data;
-        if (data.length !== users.data.length) {
-          // исключение удвоения массива при повторной загрузке, то есть чтобы при переходе обратно с postPage массив data не удвоился.
-          dispatch({
-            type: 'SET_LOADED_ARTICLES',
-            payload: data,
-            isLoading: false,
-          });
-        } else {
-          dispatch({
-            type: 'CHANGE_LOADING_STATUS',
-            isLoading: false,
-          });
-        }
+      axios.get(apiUrl).then(({ data }) => {
+        dispatch({
+          type: 'SET_ARTICLES',
+          payload: data,
+        });
       });
     } catch {
       console.log('Page data downloading has failed!');
@@ -45,12 +35,12 @@ function FullPostPage() {
       <br />
       <div>
         <Navigation />
-        {users.isLoading ? (
+        {state.isLoading ? (
           <Loader />
         ) : (
           <div className="mt-4 card-columns">
-            {users.data.map((user) => (
-              <OneCard key={user.id} user={user} />
+            {state.data.map((post) => (
+              <OneCard key={post.id} post={post} />
             ))}
           </div>
         )}
@@ -59,4 +49,4 @@ function FullPostPage() {
   );
 }
 
-export default FullPostPage;
+export default HomePage;

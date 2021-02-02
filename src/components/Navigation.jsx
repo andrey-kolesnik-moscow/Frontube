@@ -6,12 +6,12 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 
 import { NavLink } from 'react-router-dom';
-import AddOrEditArticleForm from './AddOrEditArticleForm';
+import ArticleForm from './ArticleForm';
 
 import { StateContext } from '../App';
 
 function Navigation(props) {
-  const [users, dispatch] = React.useContext(StateContext);
+  const [state, dispatch] = React.useContext(StateContext);
 
   return (
     <>
@@ -36,7 +36,7 @@ function Navigation(props) {
               className="ml-2"
               onClick={() => {
                 dispatch({
-                  type: 'OPEN_CLOSE_MODAL_SET_CURRENT_USER',
+                  type: 'MODAL_VISIBILITY',
                   visibleModal: true,
                 });
               }}
@@ -46,7 +46,7 @@ function Navigation(props) {
           </Form>
         </Navbar.Collapse>
       </Navbar>
-      {users.visibleModal ? <AddOrEditArticleForm /> : null}
+      {state.visibleModal && <ArticleForm />}
     </>
   );
 }

@@ -9,28 +9,27 @@ import { StateContext } from '../App';
 
 function PostPage(props) {
   // eslint-disable-next-line
-  const [users, dispatch] = React.useContext(StateContext);
+  const [state, dispatch] = React.useContext(StateContext);
 
   const userID = props.match.params.number;
 
   React.useEffect(() => {
-    if (!users.comments[userID]) {
+    if (!state.comments[userID]) {
       // Если еще нет комментов по id юзера
       try {
         const apiCommentsUrl = `https://5c3755177820ff0014d92711.mockapi.io/articles/${props.match.params.number}/comments`;
-        axios.get(apiCommentsUrl).then((resp) => {
-          const data = resp.data;
-          if (data.length !== 0) {
+        axios.get(apiCommentsUrl).then(({ data }) => {
+          if (data.length) {
             // если скаченная data содержит хотябы один коммент
             dispatch({
               type: 'ADD_COMMENT',
               payload: data,
-              userId: [userID],
+              userId: userID,
             });
           }
         });
       } catch {
-        console.log('Comments data downloading has failed!');
+        console.log('Comments were not downloaded from the server!');
       }
     }
     // eslint-disable-next-line
@@ -40,29 +39,29 @@ function PostPage(props) {
     <div className="container">
       <br />
       <br />
-      <Link to={{ pathname: '/' }}>
+      <Link to="/">
         <Button variant="primary">Назад</Button>
       </Link>
       <div>
         <Card className="mt-4">
-          <Card.Img variant="top" src={users.currentUser.image} />
+          <Card.Img variant="top" src={state.currentPost.image} />
           <Card.Body>
             <h5>
-              <Link to={{ pathname: `${window.location.pathname}` }}>
-                {users.currentUser.title}
-              </Link>
+              {/* <Link to={{ pathname: `${window.location.pathname}` }}> */}
+              {state.currentPost.title}
+              {/* </Link> */}
             </h5>
-            <Card.Text>{users.currentUser.text}</Card.Text>
+            <Card.Text>{state.currentPost.text}</Card.Text>
           </Card.Body>
           <Card.Footer className="text-muted text-center">
-            {users.currentUser.createdAt}
+            {state.currentPost.createdAt}
           </Card.Footer>
         </Card>
         <h3 className="mb-3 mt-4">Комментарии:</h3>
       </div>
       <Card className="mb-4">
-        {users.comments[userID] &&
-          users.comments[userID].map((item) => (
+        {state.comments[userID] &&
+          state.comments[userID].map((item) => (
             <Card.Body key={item.id}>
               <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>
               {item.text}

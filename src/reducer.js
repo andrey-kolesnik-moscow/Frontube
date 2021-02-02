@@ -2,7 +2,7 @@ export const initialState = {
         data: [],
         isLoading: false,
         visibleModal: false,
-        currentUser: undefined,
+        currentPost: undefined,
         comments: []
 }
 
@@ -13,11 +13,11 @@ export function reducer(state, action) {
           ...state,
           isLoading: action.isLoading,
         };
-      case 'SET_LOADED_ARTICLES':
+      case 'SET_ARTICLES':
         return {
           ...state,
           data: [...action.payload],
-          isLoading: action.isLoading,
+          isLoading: false,
         };
       case 'DELETE_ARTICLE':
         return {
@@ -25,17 +25,18 @@ export function reducer(state, action) {
           data: [...action.payload],
           isLoading: action.isLoading,
         };
-      case 'OPEN_CLOSE_MODAL_SET_CURRENT_USER':
+      case 'MODAL_VISIBILITY':
         return {
           ...state,
           visibleModal: action.visibleModal,
-          currentUser: action.currentUser,
+          currentPost: action.currentPost,
         };
       case 'ADD_ARTICLE':
         return {
           ...state,
           data: [...state.data, action.payload],
           visibleModal: action.visibleModal,
+          isLoading: false,
         };
       case 'CHANGE_ARTICLE':
         return {
@@ -47,6 +48,7 @@ export function reducer(state, action) {
             return item;
           }),
           visibleModal: action.visibleModal,
+          isLoading: false,
         };
         case 'ADD_COMMENT':
             return {

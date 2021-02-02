@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import FullPostsPage from './pages/FullPostsPage';
+import HomePage from './pages/HomePage';
 import AboutMePage from './pages/AboutMePage';
 import PostPage from './pages/PostPage';
 import { initialState, reducer } from './reducer';
@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
       <StateContext.Provider value={[users, dispatch]}>
         <Switch>
-          <Route path="/" component={FullPostsPage} exact />
+          <Route path="/" component={HomePage} exact />
           <Route path="/article/:number" component={PostPage} exact />
           <Route path="/about" component={AboutMePage} exact />
         </Switch>
