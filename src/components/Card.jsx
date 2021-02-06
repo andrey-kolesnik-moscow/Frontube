@@ -30,7 +30,7 @@ function OneCard({ post }) {
 
   return (
     <>
-      <Card className="">
+      <Card className="card">
         <Card.Img variant="top" src={post.image} alt="image" />
         <Card.Body>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -16,7 +16,11 @@ function HomePage() {
         type: 'CHANGE_LOADING_STATUS',
         isLoading: true,
       });
-      const apiUrl = `https://5c3755177820ff0014d92711.mockapi.io/articles`;
+      const apiUrl = `https://5c3755177820ff0014d92711.mockapi.io/articles${state.search}`;
+      dispatch({
+        type: 'SEARCH',
+        search: '',
+      });
       axios.get(apiUrl).then(({ data }) => {
         dispatch({
           type: 'SET_ARTICLES',
@@ -27,7 +31,7 @@ function HomePage() {
       console.log('Page data downloading has failed!');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.search]);
 
   return (
     <div className="container">
@@ -38,9 +42,11 @@ function HomePage() {
         {state.isLoading ? (
           <Loader />
         ) : (
-          <div className="mt-4 card-columns">
+          <div className="mt-4 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4">
             {state.data.map((post) => (
-              <OneCard key={post.id} post={post} />
+              <div className="col" key={post.id}>
+                <OneCard post={post} />
+              </div>
             ))}
           </div>
         )}

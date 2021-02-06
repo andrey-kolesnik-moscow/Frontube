@@ -3,7 +3,8 @@ export const initialState = {
         isLoading: false,
         visibleModal: false,
         currentPost: undefined,
-        comments: []
+        comments: [],
+        search: '',
 }
 
 export function reducer(state, action) {
@@ -18,6 +19,7 @@ export function reducer(state, action) {
           ...state,
           data: [...action.payload],
           isLoading: false,
+        //   search:''
         };
       case 'DELETE_ARTICLE':
         return {
@@ -53,7 +55,12 @@ export function reducer(state, action) {
         case 'ADD_COMMENT':
             return {
                 ...state,
-                comments: {...state.comments, [action.userId]: action.payload}
+                comments: {...state.comments, [action.userId]: action.payload},
+            }
+        case 'SEARCH': 
+            return {
+                ...state,
+                search: action.search,
             }
       default:
         return { ...state };

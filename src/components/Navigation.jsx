@@ -12,6 +12,19 @@ import { StateContext } from '../App';
 
 function Navigation(props) {
   const [state, dispatch] = React.useContext(StateContext);
+  const [inputValue, setInputValue] = React.useState('');
+
+  function onSearch() {
+    if (inputValue.trim()) {
+      dispatch({
+        type: 'SEARCH',
+        search: '?title=' + inputValue.trim(),
+      });
+      setInputValue('');
+    } else {
+      alert('Sorry guys, please, change the request form.');
+    }
+  }
 
   return (
     <>
@@ -27,10 +40,24 @@ function Navigation(props) {
               Обо мне
             </NavLink>
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Поиск статьи" className="mr-sm-2" />
-            <Button onClick={() => {}} variant="primary">
-              Найт
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            inline>
+            <FormControl
+              type="text"
+              placeholder="Поиск статьи"
+              className="mr-sm-2"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                onSearch();
+              }}
+              variant="primary">
+              Найти
             </Button>
             <Button
               className="ml-2"
