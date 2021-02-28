@@ -15,15 +15,11 @@ function Navigation(props) {
   const [inputValue, setInputValue] = React.useState('');
 
   function onSearch() {
-    if (inputValue.trim()) {
-      dispatch({
-        type: 'SEARCH',
-        search: '?title=' + inputValue.trim(),
-      });
-      setInputValue('');
-    } else {
-      alert('Sorry guys, please, change the request form.');
-    }
+    dispatch({
+      type: 'SEARCH',
+      search: '?title=' + inputValue.trim(),
+    });
+    setInputValue('');
   }
 
   return (

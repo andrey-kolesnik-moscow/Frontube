@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+!!! Описания задачи, данное на курсе React от Denis, было мной частично модифицировано и сокращено с целью экономии Вашего времени на прочтение.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+В home-task-4 я давал задание, где было необходимо разработать блог используя React Bootstrap с переходом по разным страницам.
+Необходимо переписать логику хранения данных с помощью хука useReducer и useContext.
 
-## Available Scripts
+Первые три чекпоинта необходимо выполнить, чтобы задание считалось выполненным.
+В этом задании, вместо `/posts` в своих запросах к записям и комментариям, пишите теперь `/articles`.
 
-In the project directory, you can run:
+### 1. Хранить статьи и комментарии в Context'е
 
-### `yarn start`
+Вместо того, чтобы использовать useState, необходимо все статьи подгружаемые с сервера сохранять в контексте. Для того, чтобы понять суть этой задачи, необходимо разобраться с useContext и useReducer.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. Добавление статьи
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Нужно реализовать возможность добавления статьей с помощью модального окна из React Bootstrap.
+Подключайте модальное окно, в котором будет: **title** (input), **image** (input), **text** (textarea).
+Для этого можно использовать компонент Form из этой же библиотеки React Bootstrap.
+⚠️ **ВАЖНО**
+После нажатия "**Добавить**", необходимо отправлять **POST-запрос** на сервер при помощи axios и дожидаться ответа о создании новой статьи.
+В теле запроса необходимо передавать объект следующие вида:
+{
+"title": "...",
+"image": "...",
+"text": "...",
+}
+**Полученный объект должен быть сразу же добавлен в стейт и отображен пользователю.**
 
-### `yarn test`
+### 3. Удаление статьи
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Для удаления статьи на сервере служит запрос типа `DELETE`.
+Обращаю внимание, что не нужно ожидать ответ от сервера, чтобы удалить статью. Удаление статьи в стейте и отправка запроса на сервер должны происходить параллельно.
+Также у пользователя необходимо запросить подтверждение на удаление.
 
-### `yarn build`
+### 4. Редактирование статьи
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Для выполнения этой задачи необходимо отправить запрос `PUT` на URL адрес конкретной статьи.
+При этом, отправляемый объект должен быть такого же вида, как и при создании статьи.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 5. Просмотр статьи без отправки запроса
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Так как глобальное состояние с помощью контекста уже создано, то нужно реализовать переход к статье по ID без ожидания ответа от сервера.
 
-### `yarn eject`
+### 6. Кеширование комментариев
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Комментарии мы должны получать отдельным запросом и выводить в полной записи.
+При повторном открытии такой статьи необходимо проверять, что комментарии уже были ранее подгружены и получать их из контекста без запроса на сервер.

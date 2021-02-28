@@ -52,7 +52,7 @@ export function reducer(state, action) {
           visibleModal: action.visibleModal,
           isLoading: false,
         };
-        case 'ADD_COMMENT':
+        case 'SET_COMMENTS':
             return {
                 ...state,
                 comments: {...state.comments, [action.userId]: action.payload},
