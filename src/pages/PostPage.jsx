@@ -20,14 +20,11 @@ function PostPage(props) {
     try {
       const apiCommentsUrl = `https://5c3755177820ff0014d92711.mockapi.io/articles/${props.match.params.number}/comments`;
       axios.get(apiCommentsUrl).then(({ data }) => {
-        // if (data.length) {
-        // если скаченная data содержит хотябы один коммент
         dispatch({
           type: 'SET_COMMENTS',
           payload: data,
           userId: userID,
         });
-        // }
       });
     } catch {
       console.log('Comments were not downloaded from the server!');
@@ -98,7 +95,6 @@ function PostPage(props) {
               onChange={(e) => setInput(e.target.value)}
             />
             <Button className="mt-3" variant="primary" onClick={postComment}>
-              {/* <Button className="mt-3" variant="primary"> */}
               Оставить комментарий
             </Button>
           </Form.Group>

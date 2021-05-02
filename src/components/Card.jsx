@@ -13,7 +13,7 @@ import ArticleForm from './ArticleForm';
 function OneCard({ post }) {
   // eslint-disable-next-line
   const [state, dispatch] = React.useContext(StateContext);
-  function removeCard() {
+  const removeCard = (e) => {
     try {
       if (window.confirm('Вы точно хотите удалить эту статью?')) {
         const apiUrl = `https://5c3755177820ff0014d92711.mockapi.io/articles/${post.id}`;
@@ -23,10 +23,11 @@ function OneCard({ post }) {
           payload: state.data.filter((card) => card.id !== post.id),
         });
       }
+      e.currentTarget.blur();
     } catch {
       console.log('Something gone wrong');
     }
-  }
+  };
 
   return (
     <>
@@ -50,17 +51,18 @@ function OneCard({ post }) {
             <div>
               <Button
                 className="mb-2"
-                onClick={() => {
+                onClick={(e) => {
                   dispatch({
                     type: 'MODAL_VISIBILITY',
                     visibleModal: true,
                     currentPost: post,
                   });
+                  e.currentTarget.blur();
                 }}
                 variant="light">
                 <img src={editIcon} alt="edit" style={{ height: '22px', width: '22px' }} />
               </Button>
-              <Button className="mb-2" onClick={() => removeCard()} variant="light">
+              <Button className="mb-2" onClick={(e) => removeCard(e)} variant="light">
                 <img src={closeIcon} alt="close" style={{ height: '18px', width: '18px' }} />
               </Button>
             </div>
